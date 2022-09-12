@@ -23,3 +23,16 @@ test('hit takes a number and then marks the condition array as hit in that posit
 
   expect(ship.condition).toEqual([1, 0, 0, 0, 1]);
 });
+
+test('isSunk returns true if all ships positions are hit', () => {
+  const ship = shipFactory(1);
+  ship.hit(0);
+
+  expect(ship.isSunk()).toBe(true);
+});
+
+test('isSunk returns false if all ship positions have not been hit', () => {
+  const ship = shipFactory(1);
+
+  expect(ship.isSunk()).toBe(false);
+});
