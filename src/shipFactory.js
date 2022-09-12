@@ -5,10 +5,13 @@ const shipFactory = (length) => {
     condition[position] = 1;
   };
 
+  const isSunk = () => condition.every((element) => element === 1);
+
   return {
     length,
     condition,
     hit,
+    isSunk,
   };
 };
 
