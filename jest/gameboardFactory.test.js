@@ -38,7 +38,7 @@ test('receiveAttack returns false if coordinates do not hit a ship', () => {
 test('receiveAttack returns true if coordinates hit a ship', () => {
   const gameboard = gameboardFactory();
 
-  // Set up dummy ship object factory with empty hit function
+  // Set up dummy ship object with empty hit function
   const ship = { hit: () => {} };
 
   gameboard.board[0][0] = {
@@ -52,7 +52,7 @@ test('receiveAttack returns true if coordinates hit a ship', () => {
 test('receiveAttack sends hit function to ship if coordinates hit a ship', () => {
   const gameboard = gameboardFactory();
 
-  // Set up dummy ship object factory with mock hit function
+  // Set up dummy ship object with mock hit function
   const hit = jest.fn(() => 'hit');
   const ship = { hit };
 
@@ -70,7 +70,7 @@ test('receiveAttack sends hit function to ship if coordinates hit a ship', () =>
 test('receiveAttack does not send hit function to ship if coordinates do not hit a ship', () => {
   const gameboard = gameboardFactory();
 
-  // Set up dummy ship object factory with mock hit function
+  // Set up dummy ship object with mock hit function
   const hit = jest.fn(() => 'hit');
   const ship = { hit };
 
@@ -82,4 +82,25 @@ test('receiveAttack does not send hit function to ship if coordinates do not hit
   gameboard.receiveAttack([1, 0]);
 
   expect(hit.mock.calls.length).toBe(0);
+});
+
+test('isGameOver returns true if all ships have been sunk', () => {
+  const gameboard = gameboardFactory();
+
+  // Set up dummy ship object which says it is sunk
+  const sunkShip = { isSunk: true };
+  const shipsArray = [sunkShip];
+
+  expect(gameboard.isGameOver(shipsArray)).toBe(true);
+});
+
+test('isGameOver returns false if all ships have not been sunk', () => {
+  const gameboard = gameboardFactory();
+
+  // Set up dummy ship object which says it is sunk
+  const sunkShip = { isSunk: true };
+  const aliveShip = { isSunk: false };
+  const shipsArray = [sunkShip, aliveShip];
+
+  expect(gameboard.isGameOver(shipsArray)).toBe(false);
 });
