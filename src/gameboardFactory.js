@@ -1,6 +1,6 @@
-import shipFactory from './shipFactory';
-
 const gameboardFactory = () => {
+  const ships = [];
+
   const createGameboard = (length) => {
     const tmpBoard = new Array(length);
     for (let i = 0; i < length; i += 1) {
@@ -14,6 +14,7 @@ const gameboardFactory = () => {
 
   const placeShip = (shipCallBack, ...coordinates) => {
     const ship = shipCallBack(coordinates.length);
+    ships.push(ship);
 
     coordinates.forEach((coordinate, index) => {
       const [row, col] = coordinate;
@@ -34,10 +35,21 @@ const gameboardFactory = () => {
     return true;
   };
 
+  const isGameOver = (shipsArray = ships) => {
+    for (let i = 0; i < shipsArray.length; i += 1) {
+      if (!shipsArray[i].isSunk) {
+        return false;
+      }
+    }
+
+    return true;
+  };
+
   return {
     board,
     placeShip,
     receiveAttack,
+    isGameOver,
   };
 };
 
