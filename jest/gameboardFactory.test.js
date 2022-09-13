@@ -1,4 +1,3 @@
-import shipFactory from "../src/shipFactory";
 import gameboardFactory from "../src/gameboardFactory";
 
 test('instantiating new gameboard creates 10x10 matrix of arrays', () => {
@@ -33,25 +32,21 @@ test('placeShip creates ship and places at specific coordinates', () => {
 test('receiveAttack returns false if coordinates do not hit a ship', () => {
   const gameboard = gameboardFactory();
 
-  // Set up dummy ship object factory with mock hit function
-  const hit = jest.fn(() => 'hit');
-  const fakeShip = () => ({ hit });
-
-  gameboard.placeShip(fakeShip, [0, 0], [0, 1], [0, 2]);
-
-  expect(gameboard.receiveAttack([0, 3])).toBeFalsy();
+  expect(gameboard.receiveAttack([0, 0])).toBeFalsy();
 });
 
 test('receiveAttack returns true if coordinates hit a ship', () => {
   const gameboard = gameboardFactory();
 
-  // Set up dummy ship object factory with mock hit function
-  const hit = jest.fn(() => 'hit');
-  const fakeShip = () => ({ hit });
+  // Set up dummy ship object factory with empty hit function
+  const ship = { hit: () => {} };
 
-  gameboard.placeShip(fakeShip, [0, 0], [0, 1], [0, 2]);
+  gameboard.board[0][0] = {
+    ship,
+    position: 0,
+  };
 
-  expect(gameboard.receiveAttack([0, 1])).toBeTruthy();
+  expect(gameboard.receiveAttack([0, 0])).toBeTruthy();
 });
 
 test('receiveAttack sends hit function to ship if coordinates hit a ship', () => {
@@ -59,13 +54,17 @@ test('receiveAttack sends hit function to ship if coordinates hit a ship', () =>
 
   // Set up dummy ship object factory with mock hit function
   const hit = jest.fn(() => 'hit');
-  const fakeShip = () => ({ hit });
+  const ship = { hit };
 
-  gameboard.placeShip(fakeShip, [0, 0], [0, 1], [0, 2]);
+  gameboard.board[0][0] = { ship, position: 0 };
+  gameboard.board[0][1] = { ship, position: 1 };
+  gameboard.board[0][2] = { ship, position: 2 };
+
   gameboard.receiveAttack([0, 0]);
   gameboard.receiveAttack([0, 1]);
+  gameboard.receiveAttack([0, 2]);
 
-  expect(hit.mock.calls.length).toBe(2);
+  expect(hit.mock.calls.length).toBe(3);
 });
 
 test('receiveAttack does not send hit function to ship if coordinates do not hit a ship', () => {
@@ -73,9 +72,12 @@ test('receiveAttack does not send hit function to ship if coordinates do not hit
 
   // Set up dummy ship object factory with mock hit function
   const hit = jest.fn(() => 'hit');
-  const fakeShip = () => ({ hit });
+  const ship = { hit };
 
-  gameboard.placeShip(fakeShip, [0, 0], [0, 1], [0, 2]);
+  gameboard.board[0][0] = { ship, position: 0 };
+  gameboard.board[0][1] = { ship, position: 1 };
+  gameboard.board[0][2] = { ship, position: 2 };
+
   gameboard.receiveAttack([0, 3]);
   gameboard.receiveAttack([1, 0]);
 
