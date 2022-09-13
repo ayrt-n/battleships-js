@@ -1,5 +1,6 @@
 const gameboardFactory = () => {
   const ships = [];
+  const missedShots = [];
 
   const createGameboard = (length) => {
     const tmpBoard = new Array(length);
@@ -28,7 +29,10 @@ const gameboardFactory = () => {
 
   const receiveAttack = (coordinate) => {
     const [row, col] = coordinate;
-    if (!board[row][col]) { return false; }
+    if (!board[row][col]) {
+      missedShots.push([row, col]);
+      return false;
+    }
 
     const { ship, position } = board[row][col];
     ship.hit(position);
@@ -47,6 +51,7 @@ const gameboardFactory = () => {
 
   return {
     board,
+    missedShots,
     placeShip,
     receiveAttack,
     isGameOver,
