@@ -29,6 +29,29 @@ test('placeShip creates ship and places at specific coordinates', () => {
   expect(gameboard.board[0][2]).toEqual({ ship: fakeShip(), index: 2 });
 });
 
+test('placeShip returns true if all coordinates are in bounds', () => {
+  const gameboard = gameboardFactory();
+
+  // Set up dummy ship factory to use in placeShip
+  const fakeShip = () => ({});
+  expect(gameboard.placeShip(fakeShip, [0, 0], [9, 9])).toBeTruthy();
+});
+
+test('placeShip returns false if coordinates are out of bounds', () => {
+  const gameboard = gameboardFactory();
+
+  // Set up dummy ship factory to use in placeShip
+  const fakeShip = () => ({});
+  expect(gameboard.placeShip(
+    fakeShip,
+    [0, 10],
+    [10, 0],
+    [-1, 0],
+    [0, -1],
+  ))
+    .toBeFalsy();
+});
+
 test('receiveAttack returns false if coordinates are not in bounds', () => {
   const gameboard = gameboardFactory();
 
