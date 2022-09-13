@@ -29,13 +29,22 @@ test('placeShip creates ship and places at specific coordinates', () => {
   expect(gameboard.board[0][2]).toEqual({ ship: fakeShip(), index: 2 });
 });
 
-test('receiveAttack returns false if coordinates do not hit a ship', () => {
+test('receiveAttack returns false if coordinates are not in bounds', () => {
   const gameboard = gameboardFactory();
 
-  expect(gameboard.receiveAttack([0, 0])).toBeFalsy();
+  expect(gameboard.receiveAttack([0, 10])).toBeFalsy();
+  expect(gameboard.receiveAttack([10, 0])).toBeFalsy();
+  expect(gameboard.receiveAttack([-1, 0])).toBeFalsy();
+  expect(gameboard.receiveAttack([0, -1])).toBeFalsy();
 });
 
-test('receiveAttack returns true if coordinates hit a ship', () => {
+test('receiveAttack returns true if coordinates are in bounds and do not hit a ship', () => {
+  const gameboard = gameboardFactory();
+
+  expect(gameboard.receiveAttack([0, 0])).toBeTruthy();
+});
+
+test('receiveAttack returns true if coordinates are in bounds and hit a ship', () => {
   const gameboard = gameboardFactory();
 
   // Set up dummy ship object with empty hit function
