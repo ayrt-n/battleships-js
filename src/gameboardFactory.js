@@ -22,6 +22,10 @@ const gameboardFactory = () => {
   };
 
   const placeShip = (shipCallBack, ...coordinates) => {
+    for (let i = 0; i < coordinates.length; i += 1) {
+      if (isOutOfBounds(coordinates[i])) { return false; }
+    }
+
     const ship = shipCallBack(coordinates.length);
     ships.push(ship);
 
@@ -33,6 +37,8 @@ const gameboardFactory = () => {
         index,
       };
     });
+
+    return true;
   };
 
   const receiveAttack = (coordinate) => {
