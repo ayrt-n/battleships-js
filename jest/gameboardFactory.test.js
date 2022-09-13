@@ -84,6 +84,16 @@ test('receiveAttack does not send hit function to ship if coordinates do not hit
   expect(hit.mock.calls.length).toBe(0);
 });
 
+test('receiveAttack keeps track of all missed shots', () => {
+  const gameboard = gameboardFactory();
+
+  gameboard.receiveAttack([0, 0]);
+  gameboard.receiveAttack([0, 9]);
+  gameboard.receiveAttack([5, 5]);
+
+  expect(gameboard.missedShots).toEqual([[0, 0], [0, 9], [5, 5]]);
+});
+
 test('isGameOver returns true if all ships have been sunk', () => {
   const gameboard = gameboardFactory();
 
