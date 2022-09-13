@@ -13,6 +13,14 @@ const gameboardFactory = () => {
 
   const board = createGameboard(10);
 
+  const isOutOfBounds = (coordinate) => {
+    const [row, col] = coordinate;
+    if (row >= board.length || row < 0) { return true; }
+    if (col >= board[0].length || col < 0) { return true; }
+
+    return false;
+  };
+
   const placeShip = (shipCallBack, ...coordinates) => {
     const ship = shipCallBack(coordinates.length);
     ships.push(ship);
@@ -28,10 +36,14 @@ const gameboardFactory = () => {
   };
 
   const receiveAttack = (coordinate) => {
+    if (isOutOfBounds(coordinate)) {
+      return false;
+    }
+
     const [row, col] = coordinate;
     if (!board[row][col]) {
       missedShots.push([row, col]);
-      return false;
+      return true;
     }
 
     const { ship, position } = board[row][col];
