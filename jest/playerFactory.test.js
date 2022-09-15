@@ -1,4 +1,4 @@
-import playerFactory from "../src/player";
+import playerFactory from "../src/playerFactory";
 
 test('attack sends enemy gameboard receiveAttack with specified coordinates', () => {
   const receiveAttack = jest.fn(() => {});
