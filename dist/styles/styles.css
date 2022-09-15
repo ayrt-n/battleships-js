@@ -1,0 +1,19 @@
+.game-container {
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.board-container {
+  display: grid;
+  grid-template-columns: repeat(10, 50px);
+  grid-template-rows: repeat(10, 50px);
+  gap: 5px;
+}
+
+.square {
+  background-color: rgb(255, 136, 136);
+}
+
+.square.ship {
+  background-color: blue;
+}
