@@ -2,8 +2,8 @@ const playerFactory = (enemyGameboard) => {
   const createRemainingMovesArray = (gameboard = enemyGameboard) => {
     const tmp = [];
 
-    for (let r = 0; r < gameboard.board; r += 1) {
-      for (let c = 0; c < gameboard.board[0]; c += 1) {
+    for (let r = 0; r < gameboard.board.length; r += 1) {
+      for (let c = 0; c < gameboard.board[0].length; c += 1) {
         tmp.push([r, c]);
       }
     }
@@ -20,14 +20,10 @@ const playerFactory = (enemyGameboard) => {
 
   const randomAttack = () => {
     const randomIndex = Math.floor(Math.random() * remainingMoves.length);
-    const coordinates = remainingMoves[randomIndex];
+    const randomMove = remainingMoves[randomIndex];
+    remainingMoves.splice(randomIndex, 1);
 
-    if (attack(coordinates)) {
-      remainingMoves.splice(randomIndex, 1);
-      return true;
-    }
-
-    return false;
+    return randomMove;
   };
 
   return {
