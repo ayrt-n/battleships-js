@@ -18,27 +18,24 @@ const game = () => {
     });
   };
 
-  // Check for winner and return Player, Computer, or undefined if no winner
-  const checkWinner = () => {
-    if (computerGameboard.isGameOver()) {
-      return 'player';
-    }
-    if (playerGameboard.isGameOver()) {
-      return 'computer';
+  // Check if game is over and return bool
+  const isGameOver = () => {
+    if (computerGameboard.isGameOver() || playerGameboard.isGameOver()) {
+      return true;
     }
 
-    return undefined;
+    return false;
   };
 
   // Starts a new game and reinitialize dom
-  const start = () => {
+  const startGame = () => {
     placeShips();
     dom.initializeDom(playerGameboard.board, computerGameboard.board);
   };
 
-  // Event listener for player moves
-  dom.computerBoardContainer.addEventListener('click', (e) => {
-    const square = e.target.closest('.square');
+  // A round of play, executed after player selects a move
+  const roundOfPlay = (clickEvent) => {
+    const square = clickEvent.target.closest('.square');
     if (!square || square.classList.contains('hit')) { return; }
 
     // Make the players move
@@ -48,7 +45,11 @@ const game = () => {
     player.attack([playerRow, playerCol]);
 
     // Check for winner
-    console.log(checkWinner());
+    if (isGameOver()) {
+      dom.generateWinMessage('Congratulations, you won!');
+      dom.computerBoardContainer.removeEventListener('click', roundOfPlay);
+      return;
+    }
 
     // Make the computers move
     const [computerRow, computerCol] = computer.randomAttack();
@@ -56,11 +57,17 @@ const game = () => {
     playerGameboard.receiveAttack([computerRow, computerCol]);
 
     // Check for winner
-    console.log(checkWinner());
-  });
+    if (isGameOver()) {
+      dom.generateWinMessage('Computer wins! Better luck next time...');
+      dom.computerBoardContainer.removeEventListener('click', roundOfPlay);
+    }
+  };
+
+  // Event listener for player moves
+  dom.computerBoardContainer.addEventListener('click', roundOfPlay);
 
   return {
-    start,
+    startGame,
   };
 };
 
