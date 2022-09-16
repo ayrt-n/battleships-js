@@ -1,6 +1,7 @@
 const domController = () => {
   const playerBoardContainer = document.getElementById('board1');
   const computerBoardContainer = document.getElementById('board2');
+  const winMessageContainer = document.getElementById('win-message');
 
   const generateGameboard = (gameboard, gameboardContainer) => {
     for (let i = 0; i < 10; i += 1) {
@@ -25,17 +26,22 @@ const domController = () => {
   };
 
   const initializeDom = (gameboard1, gameboard2) => {
-    console.log('initializing');
     playerBoardContainer.innerHTML = '';
     computerBoardContainer.innerHTML = '';
+    winMessageContainer.innerHTML = '';
 
     generateGameboard(gameboard1, playerBoardContainer);
     generateGameboard(gameboard2, computerBoardContainer);
   };
 
+  const generateWinMessage = (message) => {
+    winMessageContainer.textContent = message;
+  };
+
   return {
     computerBoardContainer,
     playerBoardContainer,
+    generateWinMessage,
     attackBoard,
     initializeDom,
   };
