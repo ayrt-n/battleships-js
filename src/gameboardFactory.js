@@ -67,10 +67,49 @@ const gameboardFactory = () => {
     return true;
   };
 
+  // Generates random board coordinates to place ship - NOT EFFICIENT IMPLEMENTATION
+  const generateRandomShipCoordinates = (shipLength) => {
+    // Randomly determine if ship will be placed horizontally (1) or vertically (0)
+    const horizontal = Math.round(Math.random());
+    let shipCoordinates = [];
+    const maxRow = horizontal ? board.length - 1 : board.length - 1 - shipLength;
+    const maxCol = horizontal ? board[0].length - 1 - shipLength : board[0].length - 1;
+
+    const startRow = Math.floor(Math.random() * (maxRow - 0 + 1) + 0);
+    const startCol = Math.floor(Math.random() * (maxCol - 0 + 1) + 0);
+
+    for (let i = 0; i < shipLength; i += 1) {
+      if (horizontal) {
+        shipCoordinates.push([startRow, startCol + i]);
+      } else {
+        shipCoordinates.push([startRow + i, startCol]);
+      }
+    }
+
+    // Check if overlap between any other ships, if yes, rerun algorithm (THIS IS NOT EFFICIENT)
+    shipCoordinates.forEach((coordinate) => {
+      const [row, col] = coordinate;
+      if (board[row][col]) {
+        shipCoordinates = generateRandomShipCoordinates(shipLength);
+        return shipCoordinates;
+      }
+    });
+
+    return shipCoordinates;
+  };
+
+  const randomlyPlaceShips = (shipCallBack, ...shipLengths) => {
+    shipLengths.forEach((shipLength) => {
+      const coordinates = generateRandomShipCoordinates(shipLength);
+      placeShip(shipCallBack, ...coordinates);
+    });
+  };
+
   return {
     board,
     missedShots,
     placeShip,
+    randomlyPlaceShips,
     receiveAttack,
     isGameOver,
   };
