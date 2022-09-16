@@ -52,14 +52,14 @@ const gameboardFactory = () => {
       return true;
     }
 
-    const { ship, position } = board[row][col];
-    ship.hit(position);
+    const { ship, index } = board[row][col];
+    ship.hit(index);
     return true;
   };
 
   const isGameOver = (shipsArray = ships) => {
     for (let i = 0; i < shipsArray.length; i += 1) {
-      if (!shipsArray[i].isSunk) {
+      if (!shipsArray[i].isSunk()) {
         return false;
       }
     }
