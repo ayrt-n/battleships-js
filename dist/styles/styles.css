@@ -17,3 +17,17 @@
 .square.ship {
   background-color: blue;
 }
+
+.square.hit {
+  background-color: rgb(255, 80, 80);
+}
+
+.square.hit.ship {
+  background-color: rgb(0, 0, 82);
+}
+
+#win-message {
+  width: max-content;
+  font-size: 1.25rem;
+  margin: 2rem auto;
+}
