@@ -1,6 +1,6 @@
 const domController = () => {
-  const boardOneContainer = document.getElementById('board1');
-  const boardTwoContainer = document.getElementById('board2');
+  const playerBoardContainer = document.getElementById('board1');
+  const computerBoardContainer = document.getElementById('board2');
 
   const generateGameboard = (gameboard, gameboardContainer) => {
     for (let i = 0; i < 10; i += 1) {
@@ -19,16 +19,24 @@ const domController = () => {
     }
   };
 
+  const attackBoard = (row, col, board) => {
+    const square = board.querySelector(`[data-row="${row}"][data-col="${col}"]`);
+    square.classList.add('hit');
+  };
+
   const initializeDom = (gameboard1, gameboard2) => {
     console.log('initializing');
-    boardOneContainer.innerHTML = '';
-    boardTwoContainer.innerHTML = '';
+    playerBoardContainer.innerHTML = '';
+    computerBoardContainer.innerHTML = '';
 
-    generateGameboard(gameboard1, boardOneContainer);
-    generateGameboard(gameboard2, boardTwoContainer);
+    generateGameboard(gameboard1, playerBoardContainer);
+    generateGameboard(gameboard2, computerBoardContainer);
   };
 
   return {
+    computerBoardContainer,
+    playerBoardContainer,
+    attackBoard,
     initializeDom,
   };
 };
