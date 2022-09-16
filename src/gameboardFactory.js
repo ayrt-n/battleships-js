@@ -87,13 +87,13 @@ const gameboardFactory = () => {
     }
 
     // Check if overlap between any other ships, if yes, rerun algorithm (THIS IS NOT EFFICIENT)
-    shipCoordinates.forEach((coordinate) => {
-      const [row, col] = coordinate;
+    for (let i = 0; i < shipCoordinates.length; i += 1) {
+      const [row, col] = shipCoordinates[i];
       if (board[row][col]) {
         shipCoordinates = generateRandomShipCoordinates(shipLength);
         return shipCoordinates;
       }
-    });
+    }
 
     return shipCoordinates;
   };
