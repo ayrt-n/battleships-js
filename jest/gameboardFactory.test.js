@@ -130,7 +130,7 @@ test('isGameOver returns true if all ships have been sunk', () => {
   const gameboard = gameboardFactory();
 
   // Set up dummy ship object which says it is sunk
-  const sunkShip = { isSunk: true };
+  const sunkShip = { isSunk: () => true };
   const shipsArray = [sunkShip];
 
   expect(gameboard.isGameOver(shipsArray)).toBe(true);
@@ -140,8 +140,8 @@ test('isGameOver returns false if all ships have not been sunk', () => {
   const gameboard = gameboardFactory();
 
   // Set up dummy ship object which says it is sunk
-  const sunkShip = { isSunk: true };
-  const aliveShip = { isSunk: false };
+  const sunkShip = { isSunk: () => true };
+  const aliveShip = { isSunk: () => false };
   const shipsArray = [sunkShip, aliveShip];
 
   expect(gameboard.isGameOver(shipsArray)).toBe(false);
