@@ -12,14 +12,13 @@ const game = () => {
 
   const placeShips = () => {
     [computerGameboard, playerGameboard].forEach((board) => {
-      board.placeShip(shipFactory, [0, 0], [0, 1], [0, 2]);
-      board.placeShip(shipFactory, [5, 5], [6, 5], [7, 5], [8, 5]);
-      board.placeShip(shipFactory, [2, 5], [2, 6], [2, 7], [2, 8]);
+      board.randomlyPlaceShips(shipFactory, 4, 3, 2);
     });
   };
 
   // Check if game is over and return bool
   const isGameOver = () => {
+    console.log(computerGameboard);
     if (computerGameboard.isGameOver() || playerGameboard.isGameOver()) {
       return true;
     }
@@ -31,6 +30,10 @@ const game = () => {
   const startGame = () => {
     placeShips();
     dom.initializeDom(playerGameboard.board, computerGameboard.board);
+  };
+
+  const endGame = () => {
+    dom.computerBoardContainer.removeEventListener('click', roundOfPlay);
   };
 
   // A round of play, executed after player selects a move
@@ -47,7 +50,7 @@ const game = () => {
     // Check for winner
     if (isGameOver()) {
       dom.generateWinMessage('Congratulations, you won!');
-      dom.computerBoardContainer.removeEventListener('click', roundOfPlay);
+      endGame();
       return;
     }
 
@@ -59,7 +62,7 @@ const game = () => {
     // Check for winner
     if (isGameOver()) {
       dom.generateWinMessage('Computer wins! Better luck next time...');
-      dom.computerBoardContainer.removeEventListener('click', roundOfPlay);
+      endGame();
     }
   };
 
@@ -68,6 +71,7 @@ const game = () => {
 
   return {
     startGame,
+    endGame,
   };
 };
 
