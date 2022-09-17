@@ -52,6 +52,17 @@ test('placeShip returns false if coordinates are out of bounds', () => {
     .toBeFalsy();
 });
 
+test('placeShip returns false if spot is already taken', () => {
+  const gameboard = gameboardFactory();
+
+  // Set up dummy ship factory to use in placeShip
+  const fakeShip = () => ({});
+
+  // Try to place ship in same spot
+  gameboard.placeShip(fakeShip, [0, 0]);
+  expect(gameboard.placeShip(fakeShip, [0, 0])).toBeFalsy();
+});
+
 test('receiveAttack returns false if coordinates are not in bounds', () => {
   const gameboard = gameboardFactory();
 
