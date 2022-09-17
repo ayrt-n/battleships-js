@@ -23,7 +23,8 @@ const gameboardFactory = () => {
 
   const placeShip = (shipCallBack, ...coordinates) => {
     for (let i = 0; i < coordinates.length; i += 1) {
-      if (isOutOfBounds(coordinates[i])) { return false; }
+      if (isOutOfBounds(coordinates[i])
+      || board[coordinates[i][0]][coordinates[i][1]]) { return false; }
     }
 
     const ship = shipCallBack(coordinates.length);
