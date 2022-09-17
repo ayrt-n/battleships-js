@@ -21,10 +21,13 @@ const gameboardFactory = () => {
     return false;
   };
 
+  const isInvalidMove = (coordinate) => (
+    isOutOfBounds(coordinate) || board[coordinate[0]][coordinate[1]]
+  );
+
   const placeShip = (shipCallBack, ...coordinates) => {
     for (let i = 0; i < coordinates.length; i += 1) {
-      if (isOutOfBounds(coordinates[i])
-      || board[coordinates[i][0]][coordinates[i][1]]) { return false; }
+      if (isInvalidMove(coordinates[i])) { return false; }
     }
 
     const ship = shipCallBack(coordinates.length);
@@ -109,6 +112,7 @@ const gameboardFactory = () => {
   return {
     board,
     missedShots,
+    isInvalidMove,
     placeShip,
     randomlyPlaceShips,
     receiveAttack,
